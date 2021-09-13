@@ -1,0 +1,6 @@
+module Pods_DharmaCollege {
+  umbrella header "Pods-DharmaCollege-umbrella.h"
+
+  export *
+  module * { export * }
+}

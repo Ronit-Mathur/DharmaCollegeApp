@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, Image } from "react-native";
 import { withNavigation } from "@react-navigation/native";
+//import { BottomNav } from "../components/BottomNav";
 
 export default class SplashScreen extends Component {
   render() {

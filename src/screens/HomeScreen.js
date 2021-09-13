@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
+import BottomNav from "../components/BottomNav";
 
 export default class HomeScreen extends Component {
   render() {
@@ -9,6 +10,11 @@ export default class HomeScreen extends Component {
         <Button
           onPress={() => this.props.navigation.navigate("Splash")}
           title="Back to SplashScreen"
+          style={styles.header}
+        ></Button>
+        <Button
+          onPress={() => this.props.navigation.navigate("SkillfulMeans")}
+          title="Skillfull Means Course"
           style={styles.header}
         ></Button>
       </View>
