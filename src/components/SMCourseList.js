@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Component,
   FlatList,
   SafeAreaView,
   View,
@@ -14,6 +15,7 @@ const DATA = [
   {
     id: "0",
     title: "Day 1", // TODO Add course name and implement
+    url: "",
     uri: "https://dharmacollegetest.s3.us-west-1.amazonaws.com/Breath+Ex+A+Silence%2C+Clairty%2C+Ease+MSW_1.aif",
   },
   {
@@ -48,40 +50,68 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
+//let selectedIndex = 0;
 
-let selectedIndex = 0;
+export default class SMCourseList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listSelectedId: 0,
+      playerSelectedIndex: 0,
+      //Need to change all instances of id or index changes to state format
+    };
+  }
 
-const SMCourseList = () => {
-  const [selectedId, setSelectedId] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const renderItem = ({ item }) => {
+  async renderItem({ item }) {
     const backgroundColor = item.id === selectedId ? "#D4A82F" : "#F2D535";
     const color = item.id === selectedId ? "white" : "black";
     return (
       <Item
         item={item}
         onPress={() => {
-          setSelectedId(item.id);
-          setSelectedIndex(item.index);
+          this.state.listSelectedId = item.id;
+          this.state.playerSelectedIndex = item.index - 1;
+          console.log("Player Index: " + this.state.playerSelectedIndex);
+          console.log("List Index = " + this.state.listSelectedId);
+          //setSelectedId(item.id);
+          //setSelectedIndex(item.index); // This should set index of audio player
         }}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
       />
     );
-  };
+  }
+  async ComponentDidMount() {
+    try {
+      AudioPlayer.handleTrackChange; // ?
+      // Audio player handlechange?
+      // Change to on component refresh
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  //async SMCourseList() {
+  //const [selectedId, setSelectedId] = useState(null);
+  //const [selectedIndex, setSelectedIndex] = useState(0);
+  //}
 
-  return (
-    <SafeAreaView style={styles.SMCourseListContainer}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-      />
-      <AudioPlayer audioPlaylist={DATA} currentIndex={selectedIndex} />
-    </SafeAreaView>
-  );
-};
+  render() {
+    return (
+      <SafeAreaView style={styles.SMCourseListContainer}>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          extraData={this.state.listSelectedId}
+        />
+        <AudioPlayer
+          audioPlaylist={DATA}
+          currentIndex={this.state.playerSelectedIndex}
+        />
+      </SafeAreaView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   SMCourseListContainer: {
@@ -98,5 +128,3 @@ const styles = StyleSheet.create({
     fontSize: 35,
   },
 });
-
-export default SMCourseList;

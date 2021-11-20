@@ -28,7 +28,7 @@ export default class AudioPlayer extends Component {
       });
       this.loadAudio();
     } catch (e) {
-      console.log(e);
+      console.log("Audio Player" + e);
     }
   }
 
